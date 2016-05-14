@@ -2,6 +2,6 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="MagentoHackathon\Toolbar\Api\RequestDataInterface" type="MagentoHackathon\Toolbar\DataCollector\RequestData" />
     <type name="Magento\Framework\App\ResponseInterface">
-        <plugin name="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" type="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" type="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" sortOrder="99"/>
     </type>
 </config>

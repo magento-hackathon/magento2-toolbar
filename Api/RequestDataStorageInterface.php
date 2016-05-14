@@ -25,7 +25,7 @@ interface RequestDataStorageInterface
      *
      * @param string $key
      *
-     * @return RequestDataStorageInterface
+     * @return RequestDataInterface
      *
      * @throws RequestDataNotFoundException
      */

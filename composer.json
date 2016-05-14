@@ -1,0 +1,17 @@
+{
+  "name": "magento-hackathon/magento2-toolbar",
+  "description": "Toolbar for Magento 2",
+  "type": "magento2-module",
+  "version": "dev-master",
+  "license": [
+    "OSL-3.0"
+  ],
+  "extra": {
+    "map": [
+      [
+        "*",
+        "MagentoHackathon/Toolbar"
+      ]
+    ]
+  }
+}

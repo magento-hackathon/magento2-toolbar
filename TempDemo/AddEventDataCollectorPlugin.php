@@ -2,7 +2,7 @@
 
 namespace MagentoHackathon\Toolbar\TempDemo;
 
-
+use MagentoHackathon\Toolbar\Toolbar;
 use MagentoHackathon\Toolbar\Api\RequestDataInterface;
 
 /**
@@ -15,7 +15,8 @@ use MagentoHackathon\Toolbar\Api\RequestDataInterface;
  */
 class AddEventDataCollectorPlugin
 {
-    protected $requestData;
+    /** @var  Toolbar $toolbar */
+    protected $toolbar;
     protected $collector;
 
     /**
@@ -25,11 +26,11 @@ class AddEventDataCollectorPlugin
      * @param EventDataCollector $collector
      */
     public function __construct(
-        RequestDataInterface $requestData,
+        Toolbar $toolbar,
         EventDataCollector $collector
     )
     {
-        $this->requestData = $requestData;
+        $this->toolbar = $toolbar;
         $this->collector = $collector;
     }
 
@@ -39,6 +40,6 @@ class AddEventDataCollectorPlugin
      */
     public function beforeLaunch()
     {
-        $this->requestData->addDataCollector("events", $this->collector);
+        $this->toolbar->addCollector($this->collector);
     }
 }

@@ -2,30 +2,50 @@
 
 namespace MagentoHackathon\Toolbar\TempDemo;
 
-use MagentoHackathon\Toolbar\DataCollector\AbstractDataCollector;
+use DebugBar\DataCollector\TimeDataCollector;
+
 
 /**
  * DataCollector that collects event names
  *
- * TODO: Remove
  */
-class EventDataCollector extends AbstractDataCollector
+class EventDataCollector extends TimeDataCollector
 {
     /**
      * @param $eventName
      */
     public function addEvent($eventName)
     {
-        // Just store the event name for now so we are sure the
-        // data can be serialized/deserialized
-        $this->data[] = $eventName;
+        $time = microtime(true);
+        $this->addMeasure($eventName, $time, $time);
     }
 
-    /**
-     * {@inheritDoc}
-     */
     public function collect()
     {
-        // Nothing to collect, we've already got all data added
+        $data = parent::collect();
+
+        $data['nb_measures'] = count($data['measures']);
+        return $data;
+    }
+
+    public function getName()
+    {
+        return 'event';
+    }
+
+    public function getWidgets()
+    {
+        return array(
+            "events" => array(
+                "icon" => "tasks",
+                "widget" => "PhpDebugBar.Widgets.TimelineWidget",
+                "map" => "event",
+                "default" => "{}",
+            ),
+            'events:badge' => array(
+                'map' => 'event.nb_measures',
+                'default' => 0,
+            ),
+        );
     }
 }

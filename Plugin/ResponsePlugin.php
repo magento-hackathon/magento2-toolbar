@@ -4,6 +4,7 @@ namespace MagentoHackathon\Toolbar\Plugin;
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\View\LayoutInterface;
 use MagentoHackathon\Toolbar\Api\RequestDataInterface;
+use MagentoHackathon\Toolbar\Toolbar;
 
 /**
  * Plugin to add Toolbar to the Response add the
@@ -28,16 +29,11 @@ class ResponsePlugin
     /**
      * Constructor
      *
-     * @param LayoutInterface $layout
-     * @param RequestDataInterface $requestData
+     * @param Toolbar $toolbar
      */
-    public function __construct(
-        LayoutInterface $layout,
-        RequestDataInterface $requestData
-    )
+    public function __construct(Toolbar $toolbar)
     {
-        $this->layout = $layout;
-        $this->requestData = $requestData;
+        $this->toolbar = $toolbar;
     }
 
     /**
@@ -47,31 +43,7 @@ class ResponsePlugin
      */
     public function beforeSendResponse(ResponseInterface $response)
     {
-        $this->requestData->collect();
-
-        $body = $response->getBody();
-        if (stripos($body, '</body>') === false) {
-            return;
-        }
-
-        $body = str_ireplace('</body>', $this->getToolbarHtml() . '</body>', $body);
-        $response->setBody($body);
+        $this->toolbar->modifyResponse($response);
     }
 
-    /**
-     * Get HTML for Toolbar
-     *
-     * @return string
-     */
-    protected function getToolbarHtml()
-    {
-        $block = $this->layout->createBlock(
-            'MagentoHackathon\Toolbar\Block\Toolbar',
-            'hackathon-toolbar',
-            [
-                'request_data' => $this->requestData
-            ]
-        );
-        return $block->toHtml();
-    }
 }

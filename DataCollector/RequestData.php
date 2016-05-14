@@ -52,6 +52,16 @@ class RequestData implements RequestDataInterface
     /**
      * {@inheritDoc}
      */
+    public function collect()
+    {
+        foreach($this->getDataCollectors() as $dataCollector) {
+            $dataCollector->collect();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function serialize()
     {
         return serialize($this->dataCollectors);

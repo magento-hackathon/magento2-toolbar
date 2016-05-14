@@ -37,4 +37,12 @@ interface RequestDataInterface extends Serializable
      * @throws DataCollectorNotFoundException
      */
     public function getDataCollector($name);
+
+    /**
+     * Collect data, called just before saving and
+     * displaying the RequestData
+     *
+     * @return void
+     */
+    public function collect();
 }

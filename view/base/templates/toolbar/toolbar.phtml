@@ -1,0 +1,56 @@
+<?php /** @var \MagentoHackathon\Toolbar\Block\Toolbar $block */?>
+
+<?php // Add JS and CSS here, becouse we can't use the layout for it ?>
+<script type="text/javascript" src="<?php echo $block->getViewFileUrl('MagentoHackathon_Toolbar::js/toolbar.js') ?>"></script>
+<script type="text/javascript" src="<?php echo $block->getViewFileUrl('MagentoHackathon_Toolbar::js/profile.js') ?>"></script>
+<link rel="stylesheet" href="<?php echo $block->getViewFileUrl('MagentoHackathon_Toolbar::css/toolbar.css') ?>"/>
+
+
+<div id="sfMiniToolbar" class="sf-minitoolbar">
+    <a href="javascript:void(0);" title="<?php echo $block->escapeHtml(__('Show toolbar')); ?>" tabindex="-1" accesskey="D" onclick="
+        var elem = this.parentNode;
+        if (elem.style.display == 'none') {
+            document.getElementById('sfToolbarMainContent').style.display = 'none';
+            document.getElementById('sfToolbarClearer').style.display = 'none';
+            elem.style.display = 'block';
+        } else {
+            document.getElementById('sfToolbarMainContent').style.display = 'block';
+            document.getElementById('sfToolbarClearer').style.display = 'block';
+            elem.style.display = 'none'
+        }
+        Sfjs.setPreference('toolbar/displayState', 'block');">
+
+        <svg baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="35" height="41" viewBox="-0.154 0 54 62"><g fill="#E85D22"><path d="M26.845 8.857"/><path d="M53.692 15.5v31l-7.67 4.43v-31L26.844 8.856 7.67 19.926V50.93L0 46.5v-31L26.845 0zM26.847 62L15.34 55.355V24.357l7.67-4.43V50.93l3.835 2.327 3.837-2.327v-31l7.67 4.427v30.998z"/></g></svg>
+    </a>
+</div>
+
+<div id="sfToolbarClearer" style="clear: both; height: 36px;"></div>
+
+<div id="sfToolbarMainContent" class="sf-toolbarreset clear-fix">
+
+    <!-- Panels go here -->
+    <div class="sf-toolbar-block">
+        <a href="#">
+            <div class="sf-toolbar-icon">
+                <svg baseProfile="tiny" xmlns="http://www.w3.org/2000/svg" width="35" height="41" viewBox="-0.154 0 54 62"><g fill="#E85D22"><path d="M26.845 8.857"/><path d="M53.692 15.5v31l-7.67 4.43v-31L26.844 8.856 7.67 19.926V50.93L0 46.5v-31L26.845 0zM26.847 62L15.34 55.355V24.357l7.67-4.43V50.93l3.835 2.327 3.837-2.327v-31l7.67 4.427v30.998z"/></g></svg>
+                <span class="sf-toolbar-value"><?php echo \Magento\Framework\AppInterface::VERSION; ?></span>
+            </div>
+        </a>
+    </div>
+
+    <a class="hide-button" onclick="
+            var p = this.parentNode;
+            p.style.display = 'none';
+            (p.previousElementSibling || p.previousSibling).style.display = 'none';
+            document.getElementById('sfMiniToolbar').style.display = 'block';
+            Sfjs.setPreference('toolbar/displayState', 'none');"
+    >
+        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" height="24" viewBox="0 0 24 24"
+             enable-background="new 0 0 24 24" xml:space="preserve">
+            <path fill="#AAAAAA" d="M21.1,18.3c0.8,0.8,0.8,2,0,2.8c-0.4,0.4-0.9,0.6-1.4,0.6s-1-0.2-1.4-0.6L12,14.8l-6.3,6.3
+    c-0.4,0.4-0.9,0.6-1.4,0.6s-1-0.2-1.4-0.6c-0.8-0.8-0.8-2,0-2.8L9.2,12L2.9,5.7c-0.8-0.8-0.8-2,0-2.8c0.8-0.8,2-0.8,2.8,0L12,9.2
+    l6.3-6.3c0.8-0.8,2-0.8,2.8,0c0.8,0.8,0.8,2,0,2.8L14.8,12L21.1,18.3z">
+            </path>
+        </svg>
+    </a>
+</div>

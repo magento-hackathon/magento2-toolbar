@@ -1,23 +1,25 @@
 <?php
+
 namespace MagentoHackathon\Toolbar\Block;
 
-class Toolbar extends \Magento\Framework\View\Element\AbstractBlock
+use Magento\Framework\View\Element\Template;
+
+/**
+ * Toolbar Block
+ */
+class Toolbar extends Template
 {
     /**
      * Constructor
      *
-     * @param \Magento\Framework\View\Element\Context $context
+     * @param Template\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Framework\View\Element\Context $context,
-        array $data = []
-    ) {
-        return parent::__construct($context, $data);
-    }
-
-    public function toHtml()
+        Template\Context $context,
+        array $data = [])
     {
-        return 'this is awesome';
+        parent::__construct($context, $data);
+        $this->setTemplate('toolbar/toolbar.phtml');
     }
 }

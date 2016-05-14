@@ -11,6 +11,11 @@ use MagentoHackathon\Toolbar\Api\DataCollectorInterface;
  */
 abstract class AbstractDataCollector implements DataCollectorInterface
 {
+    /**
+     * Data
+     *
+     * @var array
+     */
     protected $data = array();
 
     /**

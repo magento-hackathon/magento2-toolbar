@@ -4,4 +4,16 @@
     <type name="Magento\Framework\App\ResponseInterface">
         <plugin name="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" type="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" sortOrder="99"/>
     </type>
+
+    <!-- TODO: The plugin injections below should be removed when our generic module is ready -->
+    <type name="Magento\Framework\App\Http">
+        <plugin name="MagentoHackathon\Toolbar\TempDemo\AddEventDataCollectorPlugin"
+                type="MagentoHackathon\Toolbar\TempDemo\AddEventDataCollectorPlugin"
+                sortOrder="0" />
+    </type>
+    <type name="Magento\Framework\Event\ManagerInterface">
+        <plugin name="MagentoHackathon\Toolbar\TempDemo\CollectEventsPlugin"
+                type="MagentoHackathon\Toolbar\TempDemo\CollectEventsPlugin" sortOrder="1"/>
+    </type>
+
 </config>

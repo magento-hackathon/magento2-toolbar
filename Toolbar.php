@@ -47,9 +47,13 @@ class Toolbar extends DebugBar
     public function getJavascriptRenderer($baseUrl = null, $basePath = null)
     {
         if ($this->jsRenderer === null) {
-            $baseUrl = $this->assetRepo->getUrlWithParams('debugbar', ['module' => 'MagentoHackathon_Toolbar']);
-            $basePath = __DIR__ . '/../view/base/web/debugbar';
-            $this->jsRenderer = new JavascriptRenderer($this, $baseUrl, $basePath);
+            $baseUrl = $this->assetRepo->getUrlWithParams('MagentoHackathon_Toolbar', []);
+            $basePath = __DIR__ . '/../view/base/web';
+            $this->jsRenderer = new JavascriptRenderer($this, $baseUrl . '/debugbar', $basePath . '/debugbar');
+
+            $this->jsRenderer->addAssets([
+                'toolbar.css',
+            ], [], $basePath, $baseUrl);
         }
 
         return $this->jsRenderer;

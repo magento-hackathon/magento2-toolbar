@@ -15,4 +15,9 @@ class Toolbar extends \Magento\Framework\View\Element\AbstractBlock
     ) {
         return parent::__construct($context, $data);
     }
+
+    public function toHtml()
+    {
+        return 'this is awesome';
+    }
 }

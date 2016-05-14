@@ -6,12 +6,12 @@
   "license": [
     "OSL-3.0"
   ],
-  "extra": {
-    "map": [
-      [
-        "*",
-        "MagentoHackathon/Toolbar"
-      ]
+  "autoload": {
+    "psr-4": {
+      "MagentoHackathon\\Toolbar\\": ""
+    },
+    "files": [
+      "registration.php"
     ]
   }
 }

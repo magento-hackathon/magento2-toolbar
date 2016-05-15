@@ -2,7 +2,7 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
 <body>
     <referenceBlock name="head.components">
-        <block class="MagentoHackathon\Toolbar\Block\Head" name="MagentoHackathonToolbarHead" template="MagentoHackathon_Toolbar::head.phtml"/>
+        <block class="MagentoHackathon\Toolbar\Block\Components" name="MagentoHackathonToolbarComponents"/>
     </referenceBlock>
 </body>
 </page>

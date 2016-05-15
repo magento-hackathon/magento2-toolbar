@@ -32,10 +32,23 @@ class Toolbar extends DebugBar
      */
     public function modifyResponse(Http $response)
     {
-        if ( ! $response->isRedirect()) {
+        if ($this->shouldInject($response)) {
             $this->injectToolbar($response);
         }
     }
+
+    /**
+     * Determine if the Toolbar should be injected on the current request.
+     *
+     * @todo  Check the config/mode
+     * @param Http $response
+     * @return bool
+     */
+    protected function shouldInject(Http $response)
+    {
+        return ! $response->isRedirect();
+    }
+
 
     /**
      * Inject the toolbar in the HTML response.
@@ -49,7 +62,9 @@ class Toolbar extends DebugBar
 
         $pos = strripos($content, '</body>');
         if (false !== $pos) {
-            $content = substr($content, 0, $pos) . $renderer->render() . substr($content, $pos);
+
+            $toolbar = $renderer->renderHead() . $renderer->render();
+            $content = substr($content, 0, $pos) . $toolbar . substr($content, $pos);
 
             // Update the response content
             $response->setBody($content);

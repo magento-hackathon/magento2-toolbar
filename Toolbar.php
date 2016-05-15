@@ -4,9 +4,7 @@ namespace MagentoHackathon\Toolbar;
 
 use DebugBar\DebugBar;
 use DebugBar\DataCollector\ExceptionsCollector;
-use DebugBar\DataCollector\MemoryCollector;
 use DebugBar\DataCollector\MessagesCollector;
-use DebugBar\DataCollector\PhpInfoCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DataCollector\TimeDataCollector;
 use Magento\Framework\App\Response\Http;
@@ -18,13 +16,8 @@ class Toolbar extends DebugBar
      */
     public function __construct()
     {
-        // Add the default collectors
-        $this->addCollector(new PhpInfoCollector());
-        $this->addCollector(new MessagesCollector());
+        // Add some default collectors
         $this->addCollector(new RequestDataCollector());
-        $this->addCollector(new TimeDataCollector());
-        $this->addCollector(new MemoryCollector());
-        $this->addCollector(new ExceptionsCollector());
 
         // Link to the static assets
         $renderer = $this->getJavascriptRenderer();

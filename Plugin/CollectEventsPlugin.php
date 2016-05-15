@@ -1,29 +1,28 @@
 <?php
 
-namespace MagentoHackathon\Toolbar\TempDemo;
+namespace MagentoHackathon\Toolbar\Plugin;
 
+use MagentoHackathon\Toolbar\DataCollector\EventsCollector;
 use Magento\Framework\Event\Manager;
 
 /**
  * Plugin to collect event names and add it to the Event DataCollector
- *
- * TODO: Remove
  */
 class CollectEventsPlugin
 {
     /**
      * Event DataCollector
      *
-     * @var EventDataCollector
+     * @var EventsCollector
      */
     protected $collector;
 
     /**
      * Constructor
      *
-     * @param EventDataCollector $collector
+     * @param EventsCollector $collector
      */
-    public function __construct(EventDataCollector $collector)
+    public function __construct(EventsCollector $collector)
     {
         $this->collector = $collector;
     }
@@ -35,8 +34,8 @@ class CollectEventsPlugin
      * @param string  $eventName
      * @param array   $data
      */
-    public function beforeDispatch($interceptor, $eventName, $data=[])
+    public function beforeDispatch($interceptor, $eventName, $data = [])
     {
-        $this->collector->addEvent($eventName);
+        $this->collector->addEvent($eventName, $data);
     }
 }

@@ -74,3 +74,12 @@ a.phpdebugbar-tab span.phpdebugbar-badge {
     color: #fff;
     border-radius: 10px;
 }
+
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-value {
+    background: #eb5202;
+}
+
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-label,
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-collector {
+    color: black;
+}

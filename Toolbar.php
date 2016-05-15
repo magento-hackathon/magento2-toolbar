@@ -25,6 +25,20 @@ class Toolbar extends DebugBar
         $this->addCollector(new TimeDataCollector());
         $this->addCollector(new MemoryCollector());
         $this->addCollector(new ExceptionsCollector());
+
+        // Link to the static assets
+        $renderer = $this->getJavascriptRenderer();
+
+        // Add our own custom CSS
+        $renderer->addAssets([
+            'toolbar.css',
+            'font-awesome.css'
+        ], [], __DIR__ . '/view/base/web');
+
+        // Use RequireJS to include jQuery
+        $renderer->disableVendor('jquery');
+        $renderer->disableVendor('fontawesome');
+        $renderer->setUseRequireJs(true);
     }
 
     /**
@@ -63,7 +77,11 @@ class Toolbar extends DebugBar
         $pos = strripos($content, '</body>');
         if (false !== $pos) {
 
-            $toolbar = $renderer->renderHead() . $renderer->render();
+            // Link to our controller routes
+            $assets  = "<link rel='stylesheet' type='text/css' href='/hackathon_toolbar/assets/css'>";
+            $assets .= "<script type='text/javascript' src='/hackathon_toolbar/assets/js'></script>";
+
+            $toolbar = $assets . $renderer->render();
             $content = substr($content, 0, $pos) . $toolbar . substr($content, $pos);
 
             // Update the response content

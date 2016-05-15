@@ -7,10 +7,7 @@ The toolbar is displayed on both frontend and
 backend, and contains useful information for both developers and
 merchants.
 
-The work is going to be loosely based upon the following module:
-https://github.com/vpietri/magento2-developer-quickdevbar/
-So many thanks to @vpietri for providing the ground work, 
-mainly on the presentation level.
+The toolbar is based on https://github.com/maximebf/php-debugbar
 
 Instead of extending from his extension, we have decided to create
 a new module, stripped down from all features: The empty toolbar (this module).

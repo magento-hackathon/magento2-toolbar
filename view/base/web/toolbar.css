@@ -50,6 +50,11 @@ a.phpdebugbar-maximize-btn {
     background-color: #aaa6a0;
 }
 
+span.phpdebugbar-indicator,
+a.phpdebugbar-indicator,
+a.phpdebugbar-close-btn {
+    border-right: 1px solid #aaa6a0;
+}
 
 a.phpdebugbar-tab.phpdebugbar-active {
     background: #eb5202;

@@ -26,5 +26,4 @@ class Components extends Template
 
         parent::__construct($context, $data);
     }
-
 }

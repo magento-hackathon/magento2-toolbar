@@ -68,17 +68,18 @@ class Toolbar extends DebugBar
         $renderer = $this->getJavascriptRenderer();
 
         $pos = strripos($content, '</body>');
-        if (false !== $pos) {
-
-            // Link to our controller routes
-            $assets  = "<link rel='stylesheet' type='text/css' href='/hackathon_toolbar/assets/css'>";
-            $assets .= "<script type='text/javascript' src='/hackathon_toolbar/assets/js'></script>";
-
-            $toolbar = $assets . $renderer->render();
-            $content = substr($content, 0, $pos) . $toolbar . substr($content, $pos);
-
-            // Update the response content
-            $response->setBody($content);
+        if (false === $pos) {
+            return;
         }
+
+        // Link to our controller routes
+        $assets  = "<link rel='stylesheet' type='text/css' href='/hackathon_toolbar/assets/css'>";
+        $assets .= "<script type='text/javascript' src='/hackathon_toolbar/assets/js'></script>";
+
+        $toolbar = $assets . $renderer->render();
+        $content = substr($content, 0, $pos) . $toolbar . substr($content, $pos);
+
+        // Update the response content
+        $response->setBody($content);
     }
 }

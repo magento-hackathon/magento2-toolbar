@@ -1,19 +1,36 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
-    <preference for="MagentoHackathon\Toolbar\Api\RequestDataInterface" type="MagentoHackathon\Toolbar\DataCollector\RequestData" />
     <type name="Magento\Framework\App\ResponseInterface">
         <plugin name="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" type="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" sortOrder="99"/>
     </type>
 
-    <!-- TODO: The plugin injections below should be removed when our generic module is ready -->
-    <type name="Magento\Framework\App\Http">
-        <plugin name="MagentoHackathon\Toolbar\TempDemo\AddEventDataCollectorPlugin"
-                type="MagentoHackathon\Toolbar\TempDemo\AddEventDataCollectorPlugin"
+    <type name="Magento\Framework\AppInterface">
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddMagentoCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddMagentoCollectorPlugin"
                 sortOrder="0" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddMessagesCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddMessagesCollectorPlugin"
+                sortOrder="0" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddExceptionsCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddExceptionsCollectorPlugin"
+                sortOrder="0" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddEventsCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddEventsCollectorPlugin"
+                sortOrder="0" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddProfilerCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddProfilerCollectorPlugin"
+                sortOrder="0" />
+
     </type>
+
     <type name="Magento\Framework\Event\ManagerInterface">
-        <plugin name="MagentoHackathon\Toolbar\TempDemo\CollectEventsPlugin"
-                type="MagentoHackathon\Toolbar\TempDemo\CollectEventsPlugin" sortOrder="1"/>
+        <plugin name="MagentoHackathon\Toolbar\Plugin\CollectEventsPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\CollectEventsPlugin" sortOrder="1"/>
+    </type>
+
+    <type name="Psr\Log\LoggerInterface">
+        <plugin name="MagentoHackathon\Toolbar\Plugin\CollectLoggerPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\CollectLoggerPlugin" sortOrder="1"/>
     </type>
 
 </config>

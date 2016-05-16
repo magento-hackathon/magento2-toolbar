@@ -1,0 +1,85 @@
+div.phpdebugbar {
+    font-size: 13px;
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+div.phpdebugbar-resize-handle {
+    border-bottom-color: #aaa6a0;
+}
+
+div.phpdebugbar-closed,
+div.phpdebugbar-minimized {
+    border-top-color: #aaa6a0;
+}
+
+a.phpdebugbar-restore-btn {
+    border-right-color: #aaa6a0 !important;
+}
+
+div.phpdebugbar-header,
+a.phpdebugbar-restore-btn,
+div.phpdebugbar-openhandler .phpdebugbar-openhandler-header {
+    background: #373330 url(data:image/svg+xml;base64,PHN2ZyBiYXNlUHJvZmlsZT0idGlueSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzUiIGhlaWdodD0iNDEiIHZpZXdCb3g9Ii0wLjE1NCAwIDU0IDYyIj48ZyBmaWxsPSIjRTg1RDIyIj48cGF0aCBkPSJNMjYuODQ1IDguODU3Ii8+PHBhdGggZD0iTTUzLjY5MiAxNS41djMxbC03LjY3IDQuNDN2LTMxTDI2Ljg0NCA4Ljg1NiA3LjY3IDE5LjkyNlY1MC45M0wwIDQ2LjV2LTMxTDI2Ljg0NSAwek0yNi44NDcgNjJMMTUuMzQgNTUuMzU1VjI0LjM1N2w3LjY3LTQuNDNWNTAuOTNsMy44MzUgMi4zMjcgMy44MzctMi4zMjd2LTMxbDcuNjcgNC40Mjd2MzAuOTk4eiIvPjwvZz48L3N2Zz4=) no-repeat;
+    background-size: 18px auto;
+    background-position: 9px center;
+}
+
+a.phpdebugbar-restore-btn {
+    width: 18px;
+    border-right-color: #aaa6a0;
+}
+
+div.phpdebugbar-header > div > * {
+    font-size: 13px;
+    color: #aaa6a0;
+}
+
+a.phpdebugbar-tab:hover,
+span.phpdebugbar-indicator:hover,
+a.phpdebugbar-indicator:hover,
+a.phpdebugbar-close-btn:hover,
+a.phpdebugbar-open-btn:hover {
+    background-color: #ebebeb;
+    transition: background-color .25s linear 0s, color .25s linear 0s;
+}
+
+a.phpdebugbar-close-btn,
+a.phpdebugbar-open-btn,
+a.phpdebugbar-minimize-btn,
+a.phpdebugbar-maximize-btn {
+    background-color: #aaa6a0;
+}
+
+span.phpdebugbar-indicator,
+a.phpdebugbar-indicator,
+a.phpdebugbar-close-btn {
+    border-right: 1px solid #aaa6a0;
+}
+
+a.phpdebugbar-tab.phpdebugbar-active {
+    background: #eb5202;
+    color: #fff;
+}
+
+a.phpdebugbar-tab.phpdebugbar-active span.phpdebugbar-badge {
+    background-color: white;
+    color: #eb5202;
+}
+
+a.phpdebugbar-tab span.phpdebugbar-badge {
+    vertical-align: 0px;
+    padding: 2px 6px;
+    background: #eb5202;
+    font-size: 12px;
+    color: #fff;
+    border-radius: 10px;
+}
+
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-value {
+    background: #eb5202;
+}
+
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-label,
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-collector {
+    color: black;
+}

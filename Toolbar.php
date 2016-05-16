@@ -7,15 +7,22 @@ use DebugBar\DataCollector\ExceptionsCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
 use DebugBar\DataCollector\TimeDataCollector;
-use Magento\Framework\App\Response\Http;
+use Magento\Framework\App\Request\Http as HttpRequest;
+use Magento\Framework\App\Response\Http as HttpResponse;
+use MagentoHackathon\Toolbar\Storage\FilesystemStorage;
 
 class Toolbar extends DebugBar
 {
+    /** @var  HttpRequest */
+    protected $request;
+
     /**
      * Toolbar constructor.
      */
-    public function __construct()
+    public function __construct(HttpRequest $request, FilesystemStorage $storage)
     {
+        $this->request = $request;
+
         // Add some default collectors
         $this->addCollector(new RequestDataCollector());
 
@@ -32,14 +39,33 @@ class Toolbar extends DebugBar
         $renderer->disableVendor('jquery');
         $renderer->disableVendor('fontawesome');
         $renderer->setUseRequireJs(true);
+
+        $this->setStorage($storage);
+        $renderer->setOpenHandlerUrl('/hackathon_toolbar/openhandler/handle');
+
     }
 
     /**
-     * @param Http $response
+     * @param HttpResponse $response
      */
-    public function modifyResponse(Http $response)
+    public function modifyResponse(HttpResponse $response)
     {
-        if ($this->shouldInject($response)) {
+        $request = $this->request;
+
+        // Don't collect or store on internal routes
+        if ($request->getControllerModule() == 'MagentoHackathon_Toolbar') {
+            return;
+        }
+
+        // Collect the data
+        $this->collect();
+
+        // Store data for later usage
+        if ($this->storage) {
+            $this->storage->save($this->getCurrentRequestId(), $this->data);
+        }
+
+        if ($this->shouldInject($request, $response)) {
             $this->injectToolbar($response);
         }
     }
@@ -48,21 +74,22 @@ class Toolbar extends DebugBar
      * Determine if the Toolbar should be injected on the current request.
      *
      * @todo  Check the config/mode
-     * @param Http $response
+     * @param HttpRequest $request
+     * @param HttpResponse $response
      * @return bool
      */
-    protected function shouldInject(Http $response)
+    protected function shouldInject(HttpRequest $request, HttpResponse $response)
     {
-        return ! $response->isRedirect();
+        return ! $response->isRedirect() && ! $request->isAjax();
     }
 
 
     /**
      * Inject the toolbar in the HTML response.
      *
-     * @param Http $response
+     * @param HttpResponse $response
      */
-    protected function injectToolbar(Http $response)
+    protected function injectToolbar(HttpResponse $response)
     {
         $content = (string) $response->getBody();
         $renderer = $this->getJavascriptRenderer();

@@ -3,10 +3,10 @@
 namespace MagentoHackathon\Toolbar;
 
 use DebugBar\DebugBar;
-use DebugBar\DataCollector\ExceptionsCollector;
 use DebugBar\DataCollector\MessagesCollector;
 use DebugBar\DataCollector\RequestDataCollector;
-use DebugBar\DataCollector\TimeDataCollector;
+use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\Response\Http as HttpResponse;
 use MagentoHackathon\Toolbar\Storage\FilesystemStorage;
@@ -19,30 +19,35 @@ class Toolbar extends DebugBar
     /**
      * Toolbar constructor.
      */
-    public function __construct(HttpRequest $request, FilesystemStorage $storage)
+    public function __construct(HttpRequest $request, FilesystemStorage $storage, StoreManagerInterface $storeManager)
     {
         $this->request = $request;
+        $this->setStorage($storage);
 
         // Add some default collectors
         $this->addCollector(new RequestDataCollector());
 
         // Link to the static assets
-        $renderer = $this->getJavascriptRenderer();
+        $baseUrl = $storeManager->getStore()->getBaseUrl() . 'hackathon_toolbar';
+
+        // Create our own JavascriptRenderer
+        $this->jsRenderer = new JavascriptRenderer($this, $baseUrl);
+        $this->jsRenderer = $this->getJavascriptRenderer();
 
         // Add our own custom CSS
-        $renderer->addAssets([
+        $this->jsRenderer->addAssets([
             'toolbar.css',
             'font-awesome.css'
         ], [], __DIR__ . '/view/base/web');
 
         // Use RequireJS to include jQuery
-        $renderer->disableVendor('jquery');
-        $renderer->disableVendor('fontawesome');
-        $renderer->setUseRequireJs(true);
+        $this->jsRenderer->disableVendor('jquery');
+        $this->jsRenderer->disableVendor('fontawesome');
+        $this->jsRenderer->setUseRequireJs(true);
 
-        $this->setStorage($storage);
-        $renderer->setOpenHandlerUrl('/hackathon_toolbar/openhandler/handle');
-
+        // Enable the openHandler and bind to XHR requests
+        $this->jsRenderer->setOpenHandlerUrl($baseUrl . '/openhandler/handle');
+        $this->jsRenderer->setBindAjaxHandlerToXHR(true);
     }
 
     /**
@@ -50,23 +55,24 @@ class Toolbar extends DebugBar
      */
     public function modifyResponse(HttpResponse $response)
     {
+        /** @var HttpRequest $request */
         $request = $this->request;
 
-        // Don't collect or store on internal routes
         if ($request->getControllerModule() == 'MagentoHackathon_Toolbar') {
+            // Don't collect or store on internal routes
             return;
-        }
-
-        // Collect the data
-        $this->collect();
-
-        // Store data for later usage
-        if ($this->storage) {
-            $this->storage->save($this->getCurrentRequestId(), $this->data);
-        }
-
-        if ($this->shouldInject($request, $response)) {
+        } elseif ($response->isRedirect()) {
+            // On redirects, stack the data for the next request
+            $this->stackData();
+        } elseif ($request->isAjax() || $response instanceof Json) {
+            // On XHR requests, send the header so it can be shown by the active toolbar
+            $this->sendDataInHeaders(true);
+        } elseif($this->shouldInject($request, $response)) {
+            // Inject the Toolbar into the HTML
             $this->injectToolbar($response);
+        } else {
+            // Just collect the data without rendering (for later viewing)ß
+            $this->collect();
         }
     }
 
@@ -80,9 +86,8 @@ class Toolbar extends DebugBar
      */
     protected function shouldInject(HttpRequest $request, HttpResponse $response)
     {
-        return ! $response->isRedirect() && ! $request->isAjax();
+        return true;
     }
-
 
     /**
      * Inject the toolbar in the HTML response.
@@ -96,12 +101,7 @@ class Toolbar extends DebugBar
 
         $pos = strripos($content, '</body>');
         if (false !== $pos) {
-
-            // Link to our controller routes
-            $assets  = "<link rel='stylesheet' type='text/css' href='/hackathon_toolbar/assets/css'>";
-            $assets .= "<script type='text/javascript' src='/hackathon_toolbar/assets/js'></script>";
-
-            $toolbar = $assets . $renderer->render();
+            $toolbar = $renderer->renderHead() . $renderer->render();
             $content = substr($content, 0, $pos) . $toolbar . substr($content, $pos);
 
             // Update the response content

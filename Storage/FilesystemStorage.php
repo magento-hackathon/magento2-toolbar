@@ -14,6 +14,11 @@ class FilesystemStorage implements StorageInterface
 
     protected $dirname = 'toolbar';
 
+    /**
+     * FilesystemStorage constructor.
+     *
+     * @param Filesystem $filesystem
+     */
     public function __construct(Filesystem $filesystem)
     {
         $this->filesystem = $filesystem;
@@ -25,7 +30,7 @@ class FilesystemStorage implements StorageInterface
      * @param string $id
      * @param string $data
      */
-    function save($id, $data)
+    public function save($id, $data)
     {
         $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
 
@@ -47,7 +52,7 @@ class FilesystemStorage implements StorageInterface
      * @param string $id
      * @return array
      */
-    function get($id)
+    public function get($id)
     {
         $directory = $this->filesystem->getDirectoryRead(DirectoryList::VAR_DIR);
 
@@ -62,7 +67,7 @@ class FilesystemStorage implements StorageInterface
      * @param integer $offset
      * @return array
      */
-    function find(array $filters = array(), $max = 20, $offset = 0)
+    public function find(array $filters = array(), $max = 20, $offset = 0)
     {
         $directory = $this->filesystem->getDirectoryRead(DirectoryList::VAR_DIR);
 
@@ -109,7 +114,7 @@ class FilesystemStorage implements StorageInterface
     /**
      * Clears all the collected data
      */
-    function clear()
+    public function clear()
     {
         $directory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $directory->delete($this->dirname);
@@ -126,6 +131,13 @@ class FilesystemStorage implements StorageInterface
         return $this->dirname . DIRECTORY_SEPARATOR . basename($id) . ".json";
     }
 
+    /**
+     * Read a file into a stringß.ß
+     *
+     * @param ReadInterface $directory
+     * @param $path
+     * @return mixed
+     */
     protected function loadFile(ReadInterface $directory, $path)
     {
         if ($directory->isExist($path)) {

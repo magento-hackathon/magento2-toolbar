@@ -32,6 +32,16 @@ abstract class Base extends Action
         $result = $this->resultFactory->create(ResultFactory::TYPE_RAW);
         $result->setHeader('content-type', $contentType);
 
+        // Add cache headers
+        $date =  new \DateTime('+1 year');
+        $date->setTimezone(new \DateTimeZone('UTC'));
+        $result->setHeader('expires', $date->format('D, d M Y H:i:s').' GMT');
+        $result->setHeader('shared-max-age', 31536000);
+        $result->setHeader('max-age', 31536000);
+        $result->setHeader('cache-control', 'public');
+        $result->setHeader('pragma', 'cache');
+
+
         // Run the callback, catch the echo'd output to create the response
         ob_start();
         $callback();

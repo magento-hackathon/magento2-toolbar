@@ -100,12 +100,14 @@ class Toolbar extends DebugBar
         $renderer = $this->getJavascriptRenderer();
 
         $pos = strripos($content, '</body>');
-        if (false !== $pos) {
-            $toolbar = $renderer->renderHead() . $renderer->render();
-            $content = substr($content, 0, $pos) . $toolbar . substr($content, $pos);
-
-            // Update the response content
-            $response->setBody($content);
+        if (false === $pos) {
+            return;
         }
+
+        $toolbar = $renderer->renderHead() . $renderer->render();
+        $content = substr($content, 0, $pos) . $toolbar . substr($content, $pos);
+
+        // Update the response content
+        $response->setBody($content);
     }
 }

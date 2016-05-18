@@ -4,28 +4,31 @@ namespace MagentoHackathon\Toolbar\Plugin;
 
 use DebugBar\DataCollector\MessagesCollector;
 use Magento\Framework\Event\Manager;
+use MagentoHackathon\Toolbar\DataCollector\LoggerCollector;
 use MagentoHackathon\Toolbar\Toolbar;
 
 /**
  * Plugin to collect event names and add it to the Event DataCollector
  *
  */
-class AddMessagesCollectorPlugin
+class AddLoggerCollectorPlugin
 {
-    /** @var  Toolbar */
-    protected $toolbar;
+    /** @var  MessagesCollector */
+    protected $messages;
 
-    /** @var MessagesCollector  */
+    /** @var LoggerCollector  */
     protected $collector;
 
     /**
      * Constructor
      *
-     * @param MessagesCollector $collector
+     * @param MessagesCollector $messages
+     * @param LoggerCollector $collector
+     *
      */
-    public function __construct(Toolbar $toolbar, MessagesCollector $collector)
+    public function __construct(MessagesCollector $messages, LoggerCollector $collector)
     {
-        $this->toolbar = $toolbar;
+        $this->messages = $messages;
         $this->collector = $collector;
     }
 
@@ -35,6 +38,6 @@ class AddMessagesCollectorPlugin
      */
     public function beforeLaunch()
     {
-        $this->toolbar->addCollector($this->collector);
+        $this->messages->aggregate($this->collector);
     }
 }

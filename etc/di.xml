@@ -5,11 +5,8 @@
     </type>
 
     <type name="Magento\Framework\AppInterface">
-        <plugin name="MagentoHackathon\Toolbar\Plugin\AddMagentoCollectorPlugin"
-                type="MagentoHackathon\Toolbar\Plugin\AddMagentoCollectorPlugin"
-                sortOrder="0" />
-        <plugin name="MagentoHackathon\Toolbar\Plugin\AddMessagesCollectorPlugin"
-                type="MagentoHackathon\Toolbar\Plugin\AddMessagesCollectorPlugin"
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddLoggerCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddLoggerCollectorPlugin"
                 sortOrder="0" />
         <plugin name="MagentoHackathon\Toolbar\Plugin\AddExceptionsCollectorPlugin"
                 type="MagentoHackathon\Toolbar\Plugin\AddExceptionsCollectorPlugin"
@@ -31,6 +28,8 @@
     <type name="Psr\Log\LoggerInterface">
         <plugin name="MagentoHackathon\Toolbar\Plugin\CollectLoggerPlugin"
                 type="MagentoHackathon\Toolbar\Plugin\CollectLoggerPlugin" sortOrder="1"/>
+        <plugin name="MagentoHackathon\Toolbar\Plugin\CollectExceptionsPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\CollectExceptionsPlugin" sortOrder="1"/>
     </type>
 
 </config>

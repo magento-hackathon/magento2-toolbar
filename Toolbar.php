@@ -2,10 +2,9 @@
 
 namespace MagentoHackathon\Toolbar;
 
-use DebugBar\DataCollector\TimeDataCollector;
 use DebugBar\DebugBar;
 use DebugBar\DataCollector\MessagesCollector;
-use DebugBar\DataCollector\RequestDataCollector;
+use DebugBar\DataCollector\TimeDataCollector;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\App\Request\Http as HttpRequest;
@@ -24,7 +23,6 @@ class Toolbar extends DebugBar
      * @param HttpRequest $request
      * @param FilesystemStorage $storage
      * @param StoreManagerInterface $storeManager
-     * @param RequestDataCollector $requestDataCollector
      * @param MessagesCollector $messagesCollector
      * @param TimeDataCollector $timeDataCollector
      */
@@ -33,7 +31,6 @@ class Toolbar extends DebugBar
         FilesystemStorage $storage,
         StoreManagerInterface $storeManager,
         MagentoCollector $magentoCollector,
-        RequestDataCollector $requestDataCollector,
         MessagesCollector $messagesCollector,
         TimeDataCollector $timeDataCollector
     )
@@ -43,7 +40,6 @@ class Toolbar extends DebugBar
 
         // Add some default collectors
         $this->addCollector($magentoCollector);
-        $this->addCollector($requestDataCollector);
         $this->addCollector($messagesCollector);
         $this->addCollector($timeDataCollector);
 

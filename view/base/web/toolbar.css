@@ -2,68 +2,92 @@ div.phpdebugbar {
     font-size: 13px;
     font-family: 'Open Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
-
-div.phpdebugbar-resize-handle {
-    border-bottom-color: #aaa6a0;
+div.phpdebugbar-header {
+    height: 40px;
+    padding-left: 48px;
 }
-
+div.phpdebugbar-header > div > * {
+    font-size: 15px;
+    line-height: 30px;
+    color: #aaa6a0;
+}
+div.phpdebugbar-header .phpdebugbar-tab,
+div.phpdebugbar-header .phpdebugbar-indicator {
+    padding-left: 12px;
+    padding-right: 12px;
+    margin: 0 5px;
+}
+div.phpdebugbar-header .phpdebugbar-indicator {
+    border: none;
+}
+div.phpdebugbar-header .phpdebugbar-close-btn,
+div.phpdebugbar-header .phpdebugbar-minimize-btn,
+div.phpdebugbar-header .phpdebugbar-maximize-btn {
+    width: 40px;
+    height: 30px;
+    background-position: center center;
+    border-right: none;
+}
+.phpdebugbar-indicator span.phpdebugbar-tooltip {
+    top: -40px;
+    background: #eb5202;
+    color: #fff;
+    border: none;
+    opacity: 1;
+}
+div.phpdebugbar-body {
+    padding: 10px;
+}
+div.phpdebugbar-widgets-messages div.phpdebugbar-widgets-toolbar {
+    width: auto;
+    left: 15px;
+    right: 15px;
+}
+div.phpdebugbar-resize-handle,
 div.phpdebugbar-closed,
 div.phpdebugbar-minimized {
-    border-top-color: #aaa6a0;
+    border: none;
 }
-
-a.phpdebugbar-restore-btn {
-    border-right-color: #aaa6a0 !important;
+a.phpdebugbar-restore-btn.phpdebugbar-restore-btn {
+    border-right-color: #aaa6a0;
+    height: 32px;
+    width: 32px;
+    background-size: 24px auto;
+    background-position: center center;
 }
-
 div.phpdebugbar-header,
 a.phpdebugbar-restore-btn,
 div.phpdebugbar-openhandler .phpdebugbar-openhandler-header {
     background: #373330 url(data:image/svg+xml;base64,PHN2ZyBiYXNlUHJvZmlsZT0idGlueSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzUiIGhlaWdodD0iNDEiIHZpZXdCb3g9Ii0wLjE1NCAwIDU0IDYyIj48ZyBmaWxsPSIjRTg1RDIyIj48cGF0aCBkPSJNMjYuODQ1IDguODU3Ii8+PHBhdGggZD0iTTUzLjY5MiAxNS41djMxbC03LjY3IDQuNDN2LTMxTDI2Ljg0NCA4Ljg1NiA3LjY3IDE5LjkyNlY1MC45M0wwIDQ2LjV2LTMxTDI2Ljg0NSAwek0yNi44NDcgNjJMMTUuMzQgNTUuMzU1VjI0LjM1N2w3LjY3LTQuNDNWNTAuOTNsMy44MzUgMi4zMjcgMy44MzctMi4zMjd2LTMxbDcuNjcgNC40Mjd2MzAuOTk4eiIvPjwvZz48L3N2Zz4=) no-repeat;
-    background-size: 18px auto;
-    background-position: 9px center;
+    background-size: 24px auto;
+    background-position: 16px center;
 }
-
 a.phpdebugbar-restore-btn {
     width: 18px;
     border-right-color: #aaa6a0;
 }
-
-div.phpdebugbar-header > div > * {
-    font-size: 13px;
-    color: #aaa6a0;
-}
-
 a.phpdebugbar-tab:hover,
 span.phpdebugbar-indicator:hover,
 a.phpdebugbar-indicator:hover,
 a.phpdebugbar-close-btn:hover,
-a.phpdebugbar-open-btn:hover {
-    background-color: #ebebeb;
+a.phpdebugbar-open-btn:hover,
+a.phpdebugbar-minimize-btn:hover,
+a.phpdebugbar-maximize-btn:hover {
+    background-color: #eb5202;
     transition: background-color .25s linear 0s, color .25s linear 0s;
 }
-
 a.phpdebugbar-close-btn,
 a.phpdebugbar-open-btn,
 a.phpdebugbar-minimize-btn,
 a.phpdebugbar-maximize-btn {
     background-color: #aaa6a0;
 }
-
-span.phpdebugbar-indicator,
-a.phpdebugbar-indicator,
-a.phpdebugbar-close-btn {
-    border-right: 1px solid #aaa6a0;
-}
-
-a.phpdebugbar-tab.phpdebugbar-active {
+a.phpdebugbar-tab.phpdebugbar-active,
+a.phpdebugbar-tab:hover,
+span.phpdebugbar-indicator:hover,
+a.phpdebugbar-indicator:hover {
     background: #eb5202;
     color: #fff;
-}
-
-a.phpdebugbar-tab.phpdebugbar-active span.phpdebugbar-badge {
-    background-color: white;
-    color: #eb5202;
 }
 
 a.phpdebugbar-tab span.phpdebugbar-badge {
@@ -74,12 +98,26 @@ a.phpdebugbar-tab span.phpdebugbar-badge {
     color: #fff;
     border-radius: 10px;
 }
-
-ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-value {
-    background: #eb5202;
+a.phpdebugbar-tab.phpdebugbar-active span.phpdebugbar-badge,
+a.phpdebugbar-tab:hover span.phpdebugbar-badge {
+    background-color: #ffffff;
+    color: #eb5202;
 }
 
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-value {
+    top: 2px;
+    height: 16px;
+    background: #eb5202;
+}
 ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-label,
 ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-collector {
     color: black;
+}
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-label,
+ul.phpdebugbar-widgets-timeline li span.phpdebugbar-widgets-collector {
+    font-size: inherit;
+}
+ul.phpdebugbar-widgets-timeline table.phpdebugbar-widgets-params td,
+ul.phpdebugbar-widgets-timeline table.phpdebugbar-widgets-params th {
+    padding: 4px 10px;
 }

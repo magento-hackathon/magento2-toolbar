@@ -3,12 +3,11 @@
 namespace MagentoHackathon\Toolbar;
 
 use DebugBar\DebugBar;
-use DebugBar\DataCollector\MessagesCollector;
-use DebugBar\DataCollector\TimeDataCollector;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\Response\Http as HttpResponse;
+use MagentoHackathon\Toolbar\Helper\Data as Helper;
 use MagentoHackathon\Toolbar\DataCollector\MagentoCollector;
 use MagentoHackathon\Toolbar\Storage\FilesystemStorage;
 
@@ -17,34 +16,39 @@ class Toolbar extends DebugBar
     /** @var  HttpRequest */
     protected $request;
 
+    /** @var  Helper */
+    protected $helper;
+
     /**
      * Toolbar constructor.
      *
-     * @param HttpRequest $request
+     * @param Helper $helper
      * @param FilesystemStorage $storage
-     * @param StoreManagerInterface $storeManager
-     * @param MessagesCollector $messagesCollector
-     * @param TimeDataCollector $timeDataCollector
      */
     public function __construct(
-        HttpRequest $request,
-        FilesystemStorage $storage,
-        StoreManagerInterface $storeManager,
-        MagentoCollector $magentoCollector,
-        MessagesCollector $messagesCollector,
-        TimeDataCollector $timeDataCollector
-    )
-    {
-        $this->request = $request;
-        $this->setStorage($storage);
+        Helper $helper,
+        FilesystemStorage $storage
+    ) {
+        $this->helper = $helper;
 
-        // Add some default collectors
-        $this->addCollector($magentoCollector);
-        $this->addCollector($messagesCollector);
-        $this->addCollector($timeDataCollector);
+        $this->setStorage($storage);
+    }
+
+    /**
+     * Get the JavascriptRenderer
+     *
+     * @param string|null $baseUrl
+     * @param string|null $basePath
+     * @return \DebugBar\JavascriptRenderer
+     */
+    public function getJavascriptRenderer($baseUrl = null, $basePath = null)
+    {
+        if ($this->jsRenderer !== null) {
+            return $this->jsRenderer;
+        }
 
         // Link to the static assets
-        $baseUrl = $storeManager->getStore()->getBaseUrl() . 'hackathon_toolbar';
+        $baseUrl = $this->helper->getBaseUrl();
 
         // Create our own JavascriptRenderer
         $this->jsRenderer = new JavascriptRenderer($this, $baseUrl);
@@ -62,8 +66,10 @@ class Toolbar extends DebugBar
         $this->jsRenderer->setUseRequireJs(true);
 
         // Enable the openHandler and bind to XHR requests
-        $this->jsRenderer->setOpenHandlerUrl($baseUrl . '/openhandler/handle');
+        $this->jsRenderer->setOpenHandlerUrl($baseUrl . 'openhandler/handle');
         $this->jsRenderer->setBindAjaxHandlerToXHR(true);
+
+        return $this->jsRenderer;
     }
 
     /**
@@ -72,9 +78,9 @@ class Toolbar extends DebugBar
     public function modifyResponse(HttpResponse $response)
     {
         /** @var HttpRequest $request */
-        $request = $this->request;
+        $request = $this->helper->getRequest();
 
-        if ($request->getControllerModule() == 'MagentoHackathon_Toolbar') {
+        if ( ! $this->helper->isToolbarEnabled() || $this->helper->isInternalToolbarRequest()) {
             // Don't collect or store on internal routes
             return;
         } elseif ($response->isRedirect()) {
@@ -83,26 +89,13 @@ class Toolbar extends DebugBar
         } elseif ($request->isAjax() || $response instanceof Json) {
             // On XHR requests, send the header so it can be shown by the active toolbar
             $this->sendDataInHeaders(true);
-        } elseif($this->shouldInject($request, $response)) {
+        } elseif($this->helper->isToolbarVisible()) {
             // Inject the Toolbar into the HTML
             $this->injectToolbar($response);
         } else {
             // Just collect the data without rendering (for later viewing)ß
             $this->collect();
         }
-    }
-
-    /**
-     * Determine if the Toolbar should be injected on the current request.
-     *
-     * @todo  Check the config/mode
-     * @param HttpRequest $request
-     * @param HttpResponse $response
-     * @return bool
-     */
-    protected function shouldInject(HttpRequest $request, HttpResponse $response)
-    {
-        return true;
     }
 
     /**

@@ -6,21 +6,10 @@ namespace MagentoHackathon\Toolbar\Helper;
 use Magento\Framework\App\Helper\Context;
 use Magento\Framework\App\Helper\AbstractHelper;
 use Magento\Framework\App\State;
+use Magento\Store\Model\StoreManagerInterface;
 
 class Data extends AbstractHelper
 {
-    /** @var  State */
-    protected $state;
-
-    /**
-     * @param Context $context
-     */
-    public function __construct(Context $context, State $state)
-    {
-        parent::__construct($context);
-        $this->state = $state;
-    }
-
     /**
      * Get the url for this module
      * @param  string $route
@@ -62,7 +51,7 @@ class Data extends AbstractHelper
      */
     public function isToolbarEnabled()
     {
-        return $this->isDeveloperMode() && $this->getConfigValue('dev/hackathon_toolbar/enabled');
+        return $this->getConfigValue('dev/hackathon_toolbar/enabled');
     }
 
     /**
@@ -90,15 +79,5 @@ class Data extends AbstractHelper
     protected function isInternalToolbarRequest()
     {
         return $this->_getRequest()->getModuleName() === 'hackathon_toolbar';
-    }
-
-    /**
-     * Check if we are running in Developer Mode
-     *
-     * @return bool
-     */
-    protected function isDeveloperMode()
-    {
-        return $this->state->getMode() === State::MODE_DEVELOPER;
     }
 }

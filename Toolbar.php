@@ -25,12 +25,9 @@ class Toolbar extends DebugBar
      * @param Helper $helper
      * @param FilesystemStorage $storage
      */
-    public function __construct(
-        Helper $helper,
-        FilesystemStorage $storage
-    ) {
+    public function __construct(Helper $helper,  FilesystemStorage $storage)
+    {
         $this->helper = $helper;
-
         $this->setStorage($storage);
     }
 
@@ -47,11 +44,8 @@ class Toolbar extends DebugBar
             return $this->jsRenderer;
         }
 
-        // Link to the static assets
-        $baseUrl = $this->helper->getBaseUrl();
-
         // Create our own JavascriptRenderer
-        $this->jsRenderer = new JavascriptRenderer($this, $baseUrl);
+        $this->jsRenderer = new JavascriptRenderer($this, $this->helper);
         $this->jsRenderer = $this->getJavascriptRenderer();
 
         // Add our own custom CSS
@@ -66,7 +60,7 @@ class Toolbar extends DebugBar
         $this->jsRenderer->setUseRequireJs(true);
 
         // Enable the openHandler and bind to XHR requests
-        $this->jsRenderer->setOpenHandlerUrl($baseUrl . 'openhandler/handle');
+        $this->jsRenderer->setOpenHandlerUrl($this->helper->getUrl('openhandler/handle'));
         $this->jsRenderer->setBindAjaxHandlerToXHR(true);
 
         return $this->jsRenderer;

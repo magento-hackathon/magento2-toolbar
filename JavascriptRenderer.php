@@ -3,9 +3,20 @@
 namespace MagentoHackathon\Toolbar;
 
 use DebugBar\JavascriptRenderer as BaseJavascriptRenderer;
+use MagentoHackathon\Toolbar\Helper\Data as Helper;
 
 class JavascriptRenderer extends BaseJavascriptRenderer
 {
+    /** @var  Helper */
+    protected $helper;
+
+    public function __construct(Toolbar $debugBar, Helper $helper)
+    {
+        $this->helper = $helper;
+
+        parent::__construct($debugBar);
+    }
+
     /**
      * Renders the html to include needed assets
      *
@@ -13,8 +24,8 @@ class JavascriptRenderer extends BaseJavascriptRenderer
      */
     public function renderHead()
     {
-        $cssUrl = $this->baseUrl . 'assets/css?' . $this->getAssetsHash('css');
-        $jsUrl = $this->baseUrl . 'assets/js?' . $this->getAssetsHash('js');
+        $cssUrl = $this->helper->getUrl('assets/css?v=' . $this->getAssetsHash('css'));
+        $jsUrl = $this->helper->getUrl('assets/js?v=' . $this->getAssetsHash('js'));
 
         $html  = "<link rel='stylesheet' type='text/css' property='stylesheet' href='{$cssUrl}'>";
         $html .= "<script type='text/javascript' src='{$jsUrl}'></script>";

@@ -41,8 +41,6 @@ abstract class AbstractAddCollectorPlugin
      */
     public function beforeLaunch()
     {
-        if ( ! $this->toolbar->hasCollector($this->collector->getName())) {
-            $this->toolbar->addCollector($this->collector);
-        }
+        $this->toolbar->addCollector($this->collector);
     }
 }

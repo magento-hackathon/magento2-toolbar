@@ -2,6 +2,7 @@
 
 namespace MagentoHackathon\Toolbar;
 
+use DebugBar\DataCollector\DataCollectorInterface;
 use DebugBar\DebugBar;
 use Magento\Store\Model\StoreManagerInterface;
 use Magento\Framework\Controller\Result\Json;
@@ -29,6 +30,35 @@ class Toolbar extends DebugBar
     {
         $this->helper = $helper;
         $this->setStorage($storage);
+    }
+
+    /**
+     * @param DataCollectorInterface $collector
+     * @return bool
+     */
+    public function shouldCollectorRun(DataCollectorInterface $collector)
+    {
+        if ( ! $this->helper->shouldToolbarRun()) {
+            return false;
+        }
+
+        $configPath = 'dev/hackathon_toolbar_collectors/' . $collector->getName();
+
+        return (bool) $this->helper->getConfigValue($configPath);
+    }
+
+    /**
+     * @param DataCollectorInterface $collector
+     * @return $this
+     * @throws \DebugBar\DebugBarException
+     */
+    public function addCollector(DataCollectorInterface $collector)
+    {
+        $collectorName = $collector->getName();
+
+        if ($this->shouldCollectorRun($collector) && ! $this->hasCollector($collectorName)) {
+            return parent::addCollector($collector);
+        }
     }
 
     /**
@@ -74,7 +104,7 @@ class Toolbar extends DebugBar
         /** @var HttpRequest $request */
         $request = $this->helper->getRequest();
 
-        if ( ! $this->helper->isToolbarEnabled() || $this->helper->isInternalToolbarRequest()) {
+        if ( ! $this->helper->shouldToolbarRun()) {
             // Don't collect or store on internal routes
             return;
         } elseif ($response->isRedirect()) {

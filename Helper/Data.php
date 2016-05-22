@@ -66,6 +66,14 @@ class Data extends AbstractHelper
     }
 
     /**
+     * @return bool
+     */
+    public function shouldToolbarRun()
+    {
+        return $this->isToolbarEnabled() && ! $this->isInternalToolbarRequest();
+    }
+
+    /**
      * Check if the Toolbar should be visible
      * @return bool
      */
@@ -79,7 +87,7 @@ class Data extends AbstractHelper
      *
      * @return bool
      */
-    public function isInternalToolbarRequest()
+    protected function isInternalToolbarRequest()
     {
         return $this->_getRequest()->getModuleName() === 'hackathon_toolbar';
     }

@@ -62,7 +62,7 @@ class Data extends AbstractHelper
      */
     public function isToolbarEnabled()
     {
-        return $this->isDeveloperMode();
+        return $this->isDeveloperMode() && $this->getConfigValue('dev/hackathon_toolbar/enabled');
     }
 
     /**

@@ -6,6 +6,9 @@ div.phpdebugbar-header {
     height: 40px;
     padding-left: 48px;
 }
+select.phpdebugbar-datasets-switcher {
+    max-height: 40px;
+}
 div.phpdebugbar-header > div > * {
     font-size: 15px;
     line-height: 30px;
@@ -15,12 +18,12 @@ div.phpdebugbar-header .phpdebugbar-tab,
 div.phpdebugbar-header .phpdebugbar-indicator {
     padding-left: 12px;
     padding-right: 12px;
-    margin: 0 5px;
 }
 div.phpdebugbar-header .phpdebugbar-indicator {
     border: none;
 }
 div.phpdebugbar-header .phpdebugbar-close-btn,
+div.phpdebugbar-header .phpdebugbar-open-btn,
 div.phpdebugbar-header .phpdebugbar-minimize-btn,
 div.phpdebugbar-header .phpdebugbar-maximize-btn {
     width: 40px;

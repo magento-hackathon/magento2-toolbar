@@ -2,12 +2,11 @@
 
 namespace MagentoHackathon\Toolbar\Plugin;
 
-use DebugBar\DataCollector\TimeDataCollector;
 use MagentoHackathon\Toolbar\Toolbar;
-use MagentoHackathon\Toolbar\DataCollector\MagentoCollector;
+use DebugBar\DataCollector\TimeDataCollector;
 
 /**
- * Adds the Events collector
+ * Adds the Time collector
  *
  */
 class AddTimeDataCollectorPlugin extends AbstractAddCollectorPlugin

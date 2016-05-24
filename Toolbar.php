@@ -2,33 +2,45 @@
 
 namespace MagentoHackathon\Toolbar;
 
-use DebugBar\DataCollector\DataCollectorInterface;
 use DebugBar\DebugBar;
-use Magento\Store\Model\StoreManagerInterface;
+use DebugBar\DataCollector\DataCollectorInterface;
+use Magento\Framework\UrlInterface;
 use Magento\Framework\Controller\Result\Json;
 use Magento\Framework\App\Request\Http as HttpRequest;
 use Magento\Framework\App\Response\Http as HttpResponse;
-use MagentoHackathon\Toolbar\Helper\Data as Helper;
-use MagentoHackathon\Toolbar\DataCollector\MagentoCollector;
+use MagentoHackathon\Toolbar\Provider\StateProvider;
 use MagentoHackathon\Toolbar\Storage\FilesystemStorage;
+use Magento\Framework\App\State;
 
 class Toolbar extends DebugBar
 {
     /** @var  HttpRequest */
     protected $request;
 
-    /** @var  Helper */
-    protected $helper;
+    /** @var  UrlInterface */
+    protected $url;
+
+    /** @var  StateProvider */
+    protected $state;
+
+    /** @var State  */
+    protected $appState;
 
     /**
      * Toolbar constructor.
      *
-     * @param Helper $helper
+     * @param UrlInterface $url
      * @param FilesystemStorage $storage
      */
-    public function __construct(Helper $helper,  FilesystemStorage $storage)
-    {
-        $this->helper = $helper;
+    public function __construct(
+        UrlInterface $url,
+        FilesystemStorage $storage,
+        StateProvider $state,
+        State $appState
+    ) {
+        $this->url = $url;
+        $this->state = $state;
+        $this->appState = $appState;
         $this->setStorage($storage);
     }
 
@@ -38,13 +50,7 @@ class Toolbar extends DebugBar
      */
     public function shouldCollectorRun(DataCollectorInterface $collector)
     {
-        if ( ! $this->helper->shouldToolbarRun()) {
-            return false;
-        }
-
-        $configPath = 'dev/hackathon_toolbar_collectors/' . $collector->getName();
-
-        return (bool) $this->helper->getConfigValue($configPath);
+        return $this->state->shouldCollectorRun($collector);
     }
 
     /**
@@ -75,7 +81,7 @@ class Toolbar extends DebugBar
         }
 
         // Create our own JavascriptRenderer
-        $this->jsRenderer = new JavascriptRenderer($this, $this->helper);
+        $this->jsRenderer = new JavascriptRenderer($this, $this->url);
         $this->jsRenderer = $this->getJavascriptRenderer();
 
         // Add our own custom CSS
@@ -90,7 +96,7 @@ class Toolbar extends DebugBar
         $this->jsRenderer->setUseRequireJs(true);
 
         // Enable the openHandler and bind to XHR requests
-        $this->jsRenderer->setOpenHandlerUrl($this->helper->getUrl('openhandler/handle'));
+        $this->jsRenderer->setOpenHandlerUrl($this->url->getUrl('hackathon_toolbar/openhandler/handle'));
         $this->jsRenderer->setBindAjaxHandlerToXHR(true);
 
         return $this->jsRenderer;
@@ -101,21 +107,20 @@ class Toolbar extends DebugBar
      */
     public function modifyResponse(HttpResponse $response)
     {
-        /** @var HttpRequest $request */
-        $request = $this->helper->getRequest();
-
-        if ( ! $this->helper->shouldToolbarRun()) {
+        if ( ! $this->state->shouldToolbarRun()) {
             // Don't collect or store on internal routes
             return;
         } elseif ($response->isRedirect()) {
             // On redirects, stack the data for the next request
             $this->stackData();
-        } elseif ($request->isAjax() || $response instanceof Json) {
+        } elseif ($this->state->isAjaxRequest() || $response instanceof Json) {
             // On XHR requests, send the header so it can be shown by the active toolbar
             $this->sendDataInHeaders(true);
-        } elseif($this->helper->isToolbarVisible()) {
+        } elseif($this->state->isToolbarVisible()) {
             // Inject the Toolbar into the HTML
-            $this->injectToolbar($response);
+            $this->appState->emulateAreaCode('frontend', function() use($response) {
+                $this->injectToolbar($response);
+            });
         } else {
             // Just collect the data without rendering (for later viewing)ß
             $this->collect();

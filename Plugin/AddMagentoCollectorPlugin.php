@@ -6,7 +6,7 @@ use MagentoHackathon\Toolbar\Toolbar;
 use MagentoHackathon\Toolbar\DataCollector\MagentoCollector;
 
 /**
- * Adds the Events collector
+ * Adds the Magento collector
  *
  */
 class AddMagentoCollectorPlugin extends AbstractAddCollectorPlugin

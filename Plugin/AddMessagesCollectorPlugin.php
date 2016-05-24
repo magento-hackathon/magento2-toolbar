@@ -2,9 +2,8 @@
 
 namespace MagentoHackathon\Toolbar\Plugin;
 
-use DebugBar\DataCollector\MessagesCollector;
 use MagentoHackathon\Toolbar\Toolbar;
-use MagentoHackathon\Toolbar\DataCollector\MagentoCollector;
+use DebugBar\DataCollector\MessagesCollector;
 
 /**
  * Adds the Events collector

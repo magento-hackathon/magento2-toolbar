@@ -1,6 +1,21 @@
 <?xml version="1.0"?>
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="MagentoHackathon\Toolbar\API\ToolbarStateInterface"
+                type="MagentoHackathon\Toolbar\Provider\StateProvider" />
+
     <type name="Magento\Framework\App\ResponseInterface">
         <plugin name="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" type="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" sortOrder="99"/>
+    </type>
+
+    <type name="Magento\Framework\AppInterface">
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddMagentoCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddMagentoCollectorPlugin"
+                sortOrder="100" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddMessagesCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddMessagesCollectorPlugin"
+                sortOrder="110" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddTimeDataCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddTimeDataCollectorPlugin"
+                sortOrder="120" />
     </type>
 </config>

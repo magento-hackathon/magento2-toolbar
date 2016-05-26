@@ -6,17 +6,25 @@ use DebugBar\DataCollector\DataCollector;
 use DebugBar\DataCollector\Renderable;
 use Magento\Framework\AppInterface;
 use Magento\Framework\Locale\ResolverInterface;
+use Magento\Framework\App\ProductMetadataInterface;
 
 class MagentoCollector extends DataCollector implements Renderable
 {
+    /** @var ProductMetadataInterface  */
+    protected $productMetadata;
+
     /** @var ResolverInterface */
     protected $resolver;
 
     /**
+     * @param ProductMetadataInterface $productMetadata
      * @param ResolverInterface $localeResolver
      */
-    public function __construct(ResolverInterface $localeResolver)
-    {
+    public function __construct(
+        ProductMetadataInterface $productMetadata,
+        ResolverInterface $localeResolver
+    ) {
+        $this->productMetadata = $productMetadata;
         $this->resolver = $localeResolver;
     }
 
@@ -26,7 +34,7 @@ class MagentoCollector extends DataCollector implements Renderable
     public function collect()
     {
         return array(
-            "version" => AppInterface::VERSION,
+            "version" => $this->productMetadata->getVersion(),
             "locale" => $this->resolver->getLocale(),
         );
     }

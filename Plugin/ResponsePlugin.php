@@ -3,7 +3,6 @@ namespace MagentoHackathon\Toolbar\Plugin;
 
 use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\View\LayoutInterface;
-use MagentoHackathon\Toolbar\Api\RequestDataInterface;
 use MagentoHackathon\Toolbar\Toolbar;
 
 /**
@@ -12,20 +11,6 @@ use MagentoHackathon\Toolbar\Toolbar;
  */
 class ResponsePlugin
 {
-    /**
-     * Layout
-     *
-     * @var LayoutInterface
-     */
-    protected $layout;
-
-    /**
-     * RequestData
-     *
-     * @var RequestDataInterface
-     */
-    protected $requestData;
-
     /**
      * Constructor
      *

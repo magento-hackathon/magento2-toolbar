@@ -14,7 +14,8 @@
       "MagentoHackathon\\Toolbar\\": ""
     },
     "files": [
-      "registration.php"
+      "registration.php",
+      "helpers.php"
     ]
   }
 }

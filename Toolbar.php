@@ -68,6 +68,23 @@ class Toolbar extends DebugBar
     }
 
     /**
+     * Adds a message to the MessagesCollector
+     *
+     * A message can be anything from an object to a string
+     *
+     * @param mixed $message
+     * @param string $label
+     */
+    public function addMessage($message, $label = 'info')
+    {
+        if ($this->hasCollector('messages')) {
+            /** @var \MagentoHackathon\Toolbar\DataCollector\MessagesCollector $collector */
+            $collector = $this->getCollector('messages');
+            $collector->addMessage($message, $label);
+        }
+    }
+
+    /**
      * Get the JavascriptRenderer
      *
      * @param string|null $baseUrl

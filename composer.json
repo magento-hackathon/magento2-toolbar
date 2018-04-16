@@ -1,8 +1,16 @@
 {
   "name": "magento-hackathon/magento2-toolbar",
   "description": "Toolbar for Magento 2",
+  "keywords": ["magento", "magento2", "toolbar", "debugbar", "profiler", "debug"],
   "type": "magento2-module",
-  "version": "dev-master",
+  "authors": [
+    {
+      "name": "Barry vd. Heuvel"
+    },
+    {
+      "name": "Elze Kool"
+    }
+  ],
   "license": [
     "OSL-3.0"
   ],
@@ -19,5 +27,10 @@
       "registration.php",
       "helpers.php"
     ]
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-master": "0.1-dev"
+    }
   }
 }

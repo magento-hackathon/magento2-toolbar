@@ -2,8 +2,10 @@
 namespace MagentoHackathon\Toolbar\Plugin;
 
 use MagentoHackathon\Toolbar\DataCollector\EventCollector;
+use MagentoHackathon\Toolbar\DataCollector\ObserverCollector;
 use MagentoHackathon\Toolbar\Toolbar;
 use Magento\Framework\Event\ManagerInterface;
+use Magento\Framework\Event\ConfigInterface;
 
 /**
  * Plugin to add Toolbar to the Response add the
@@ -13,16 +15,21 @@ class EventManagerPlugin
 {
     /** @var EventCollector  */
     protected $eventCollector;
-    
-    /**
-     * Constructor
-     *
-     * @param Toolbar $toolbar
-     */
-    public function __construct(Toolbar $toolbar, EventCollector $eventCollector)
-    {
+
+    /** @var ObserverCollector  */
+    protected $observerCollector;
+
+    /** @var ConfigInterface */
+    protected $config;
+
+    public function __construct(
+        Toolbar $toolbar,
+        EventCollector $eventCollector,
+        ConfigInterface $config
+    ) {
         $this->toolbar = $toolbar;
         $this->eventCollector = $eventCollector;
+        $this->config = $config;
     }
 
     public function aroundDispatch(
@@ -36,6 +43,10 @@ class EventManagerPlugin
         $end = microtime(true);
 
         if ($this->toolbar->shouldCollectorRun($this->eventCollector)) {
+            if ($observers = $this->config->getObservers($eventName)) {
+                $data['__observers'] = $observers;
+            }
+
             $this->eventCollector->addEvent($eventName, $start, $end, $data);
         }
 

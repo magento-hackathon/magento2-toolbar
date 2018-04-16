@@ -26,6 +26,8 @@ class Toolbar extends DebugBar
     /** @var State  */
     protected $appState;
 
+    protected $useRequireJs = true;
+
     /**
      * Toolbar constructor.
      *

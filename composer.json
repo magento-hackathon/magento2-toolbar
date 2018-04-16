@@ -7,7 +7,9 @@
     "OSL-3.0"
   ],
   "require": {
-    "maximebf/debugbar": "1.12.*"
+    "php": ">=7.0.0",
+    "magento/framework": "~101.0",
+    "maximebf/debugbar": "~1.15.0"
   },
   "autoload": {
     "psr-4": {

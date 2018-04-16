@@ -3,19 +3,32 @@
 if ( ! function_exists('toolbar')) {
 
     /**
-     * @param mixed|null ...$args
      * @return MagentoHackathon\Toolbar\Toolbar
      */
-    function toolbar($args = null)
+    function toolbar()
     {
         /** @var \MagentoHackathon\Toolbar\Toolbar $toolbar */
         $toolbar = \Magento\Framework\App\ObjectManager::getInstance()
             ->get(\MagentoHackathon\Toolbar\Toolbar::class);
 
-        foreach (func_get_args() as $value) {
+        return $toolbar;
+    }
+}
+
+if ( ! function_exists('debug')) {
+
+    /**
+     * @param mixed ...$args
+     * @return void
+     */
+    function debug(...$args)
+    {
+        /** @var \MagentoHackathon\Toolbar\Toolbar $toolbar */
+        $toolbar = \Magento\Framework\App\ObjectManager::getInstance()
+            ->get(\MagentoHackathon\Toolbar\Toolbar::class);
+
+        foreach ($args as $value) {
             $toolbar->addMessage($value);
         }
-
-        return $toolbar;
     }
 }

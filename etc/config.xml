@@ -9,6 +9,7 @@
                 <magento>1</magento>
                 <messages>1</messages>
                 <time>1</time>
+                <event>1</event>
             </hackathon_toolbar_collectors>
         </dev>
     </default>

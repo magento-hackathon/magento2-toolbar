@@ -27,6 +27,11 @@
                     <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
                     <comment>Can be used to display measurements.</comment>
                 </field>
+                <field id="event" type="select" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Events</label>
+                    <source_model>Magento\Config\Model\Config\Source\Enabledisable</source_model>
+                    <comment>Show all events.</comment>
+                </field>
             </group>
         </section>
     </system>

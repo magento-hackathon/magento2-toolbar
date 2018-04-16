@@ -4,7 +4,17 @@
                 type="MagentoHackathon\Toolbar\Provider\StateProvider" />
 
     <type name="Magento\Framework\App\ResponseInterface">
-        <plugin name="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" type="MagentoHackathon\Toolbar\Plugin\ResponsePlugin" sortOrder="99"/>
+        <plugin name="MagentoHackathon\Toolbar\Plugin\ResponsePlugin"
+                type="MagentoHackathon\Toolbar\Plugin\ResponsePlugin"
+                sortOrder="99"
+        />
+    </type>
+
+    <type name="Magento\Framework\Event\ManagerInterface">
+        <plugin name="MagentoHackathon\Toolbar\Plugin\EventManagerPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\EventManagerPlugin"
+                sortOrder="1"
+        />
     </type>
 
     <type name="Magento\Framework\AppInterface">
@@ -17,5 +27,8 @@
         <plugin name="MagentoHackathon\Toolbar\Plugin\AddTimeDataCollectorPlugin"
                 type="MagentoHackathon\Toolbar\Plugin\AddTimeDataCollectorPlugin"
                 sortOrder="120" />
+        <plugin name="MagentoHackathon\Toolbar\Plugin\AddEventCollectorPlugin"
+                type="MagentoHackathon\Toolbar\Plugin\AddEventCollectorPlugin"
+                sortOrder="130" />
     </type>
 </config>
